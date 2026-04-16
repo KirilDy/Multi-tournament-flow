@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        Головна Сторінка
+    </head>
+
+    <body>
+        {% if user.is_authenticated %}
+    <span>Вітаємо, {{ user.username }}!</span>
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Вийти</button>
+    </form>
+{% else %}
+    <a href="{% url 'login' %}">Увійти</a>
+{% endif %}
+    </body>
+</html>
