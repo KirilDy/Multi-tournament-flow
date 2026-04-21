@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import RegisterView
+from .views import profile_view
 
 urlpatterns = [
     # Використовуємо вбудовані класи для входу/виходу
@@ -9,4 +10,5 @@ urlpatterns = [
     
     # Власний шлях для реєстрації
     path('register/', RegisterView.as_view(), name='register'),
+    path('profile/', profile_view, name='profile'),
 ]

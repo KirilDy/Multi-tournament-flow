@@ -15,7 +15,7 @@ def jury_dashboard(request):
 
 
 class JuryTaskListView(django.contrib.auth.mixins.UserPassesTestMixin, django.views.generic.ListView):
-    model = Task
+    #model = Task
     template_name = 'jury/tasks.html'
 
     def test_func(self):

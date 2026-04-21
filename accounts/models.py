@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
 
 class User(AbstractUser):
@@ -12,4 +13,6 @@ class User(AbstractUser):
         choices=Role.choices, 
         default=Role.TEAM
     )
-    bio = models.TextField(blank=True)  # Додаткове поле для профілю
+
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)

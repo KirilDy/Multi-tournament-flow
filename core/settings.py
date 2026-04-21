@@ -122,5 +122,6 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'home'  # Назва вашого url-шляху (наприклад, головна сторінка)
 
 # Куди редиректити після виходу
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'  
+
 
