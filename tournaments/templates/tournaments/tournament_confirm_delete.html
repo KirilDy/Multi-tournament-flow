@@ -1,0 +1,16 @@
+<h1>Видалення турніру</h1>
+
+<p>Ти точно хочеш видалити:</p>
+
+<strong>{{ object.title }}</strong>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" style="color:red;">
+        Так, видалити
+    </button>
+</form>
+
+<a href="{% url 'tournament_detail' object.id %}">
+    Скасувати
+</a>

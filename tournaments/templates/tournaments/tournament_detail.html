@@ -1,0 +1,37 @@
+<h1>{{ object.title }}</h1>
+
+<p>{{ object.description }}</p>
+<p>Статус: {{ object.get_status_display }}</p>
+
+<hr>
+
+{% if user.is_authenticated and user.role == 'ADMIN' %}
+
+    <a href="{% url 'tournament_edit' object.id %}">
+        <button>✏ Редагувати турнір</button>
+    </a>
+
+    <a href="{% url 'tournament_delete' object.id %}">
+        <button style="color:red;">🗑 Видалити турнір</button>
+    </a>
+
+    <hr>
+
+    <form method="post" action="{% url 'tournament_change_status' object.id %}">
+        {% csrf_token %}
+
+        <label>Змінити статус:</label>
+
+        <select name="status">
+            {% for value, label in object.Status.choices %}
+                <option value="{{ value }}" {% if value == object.status %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">OK</button>
+    </form>
+
+
+{% endif %}

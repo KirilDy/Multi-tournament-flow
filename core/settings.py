@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-$9juuf1$1@rvuwn+-8g$^3v6$%&yz6o@+9$$+ocl_mg5(kw8am
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'tournaments',
     'teams',
 ]
 
@@ -122,7 +123,7 @@ STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'accounts.User'
 # Куди редиректити після успішного входу
-LOGIN_REDIRECT_URL = 'home'  # Назва вашого url-шляху (наприклад, головна сторінка)
+LOGIN_REDIRECT_URL = 'tournament_list'  # Назва вашого url-шляху (наприклад, головна сторінка)
 
 # Куди редиректити після виходу
 LOGOUT_REDIRECT_URL = 'login'  

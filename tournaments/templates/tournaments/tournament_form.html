@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма турніру</title>
+</head>
+<body>
+
+<a href="/">⬅ Назад</a>
+
+<h1>Створення / редагування турніру</h1>
+
+<h1>Турнір</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Зберегти</button>
+</form>
+
+</body>
+</html>

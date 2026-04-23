@@ -1,0 +1,37 @@
+
+<h1>Турніри</h1>
+
+{% if user.is_authenticated and user.role == 'ADMIN' %}
+    <a href="{% url 'tournament_create' %}">
+        <button>➕ Створити турнір</button>
+    </a>
+{% endif %}
+
+
+<form method="get">
+    <select name="status">
+        <option value="">Всі</option>
+        {% for value, label in statuses %}
+            <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Фільтр</button>
+</form>
+
+<hr>
+
+{% for t in tournaments %}
+    <div>
+        <h3>
+            <a href="{% url 'tournament_detail' t.id %}">
+                {{ t.title }}
+            </a>
+        </h3>
+        <p>Статус: {{ t.get_status_display }}</p>
+    </div>
+{% empty %}
+    <p>Немає турнірів</p>
+{% endfor %}
