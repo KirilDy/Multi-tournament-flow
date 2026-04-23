@@ -1,14 +1,15 @@
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
+from django.contrib.auth.decorators import login_required
 from accounts.models import User
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, UserProfileForm
 import django.contrib.auth.decorators
 import django.contrib.auth.mixins
 import django.shortcuts
 from django.views.generic import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 
 
 
@@ -24,3 +25,16 @@ def profile_view(request):
     })
 
 
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        # request.FILES потрібен для завантаження аватара
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Профіль успішно оновлено!")
+            return redirect('/accounts/profile/') # Назва URL вашої сторінки профілю
+    else:
+        form = UserProfileForm(instance=request.user)
+    
+    return render(request, 'accounts/edit_profile.html', {'form': form})

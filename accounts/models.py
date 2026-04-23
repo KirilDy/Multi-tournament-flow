@@ -14,5 +14,12 @@ class User(AbstractUser):
         default=Role.TEAM
     )
 
+
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+
+    @property
+    def get_avatar_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        return '/static/default-avatar.png'

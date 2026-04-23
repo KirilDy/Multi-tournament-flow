@@ -1,0 +1,18 @@
+<div class="edit-profile-container">
+    <h2>Налаштування профілю</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Avatar" style="width: 100px; border-radius: 50%;">
+        {% endif %}
+
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Назад до профілю</a>
+    </form>
+</div>
