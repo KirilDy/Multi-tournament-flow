@@ -38,3 +38,7 @@ def edit_profile(request):
         form = UserProfileForm(instance=request.user)
     
     return render(request, 'accounts/edit_profile.html', {'form': form})
+
+@login_required
+def main_page(request):
+    return render(request, 'accounts/main.html')

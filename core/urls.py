@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('tournaments.urls')),
     path('accounts/',include('accounts.urls') )
 
+
 ]
 
 if settings.DEBUG:

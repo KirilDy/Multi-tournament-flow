@@ -3,6 +3,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import RegisterView
 from .views import profile_view, edit_profile
+from . import views
 
 urlpatterns = [
     # Використовуємо вбудовані класи для входу/виходу
@@ -13,4 +14,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', profile_view, name='profile'),
     path('profile/edit/', edit_profile,  name='edit_profile'),
+    path('main/', views.main_page, name='home'),
 ]

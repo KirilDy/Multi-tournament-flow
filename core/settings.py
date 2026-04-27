@@ -123,7 +123,7 @@ STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'accounts.User'
 # Куди редиректити після успішного входу
-LOGIN_REDIRECT_URL = 'tournament_list'  # Назва вашого url-шляху (наприклад, головна сторінка)
+LOGIN_REDIRECT_URL = 'home'  # Назва вашого url-шляху (наприклад, головна сторінка)
 
 # Куди редиректити після виходу
 LOGOUT_REDIRECT_URL = 'login'  

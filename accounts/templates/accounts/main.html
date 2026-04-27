@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        Головна Сторінка
+        <title>Головна Сторінка</title>
     </head>
 
     <body>
         {% if user.is_authenticated %}
-    <span>Вітаємо, {{ user.username }}!</span>
-    <form action="{% url 'logout' %}" method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Вийти</button>
-    </form>
-{% else %}
-    <a href="{% url 'login' %}">Увійти</a>
-{% endif %}
+            <div>
+                <span>Вітаємо, {{ user.username }}!</span>
+                
+                <div style="margin: 10px 0;">
+                    <a href="{% url 'tournament_list' %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                        Список турнірів
+                    </a>
+
+                    <a href="{% url 'profile' %}" style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">
+                        Мій профіль
+                    </a>
+                </div>
+
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Вийти</button>
+                </form>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}">Увійти</a>
+        {% endif %}
     </body>
 </html>
