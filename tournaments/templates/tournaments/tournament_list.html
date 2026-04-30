@@ -31,6 +31,24 @@
             </a>
         </h3>
         <p>Статус: {{ t.get_status_display }}</p>
+        
+        {% if user.is_authenticated %}
+            {% if user.role == 'TEAM' %}
+                <a href="{% url 'team_create' t.id %}">
+                    <button>Створити команду</button>
+                </a>
+            {% endif %}
+            
+            {% if user.role == 'JURY' %}
+                <a href="{% url 'jury_team_list' t.id %}">
+                    <button>Переглянути команди</button>
+                </a>
+            {% endif %}
+            
+            <a href="{% url 'tournament_teams' t.id %}">
+                <button>Список команд</button>
+            </a>
+        {% endif %}
     </div>
 {% empty %}
     <p>Немає турнірів</p>

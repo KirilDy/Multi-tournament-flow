@@ -1,0 +1,57 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Список турнірів (для Журі)</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Назва</th>
+                                <th>Статус</th>
+                                <th>Дата початку</th>
+                                <th>Кількість команд</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tournament in tournaments %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ tournament.title }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if tournament.status == 'FINISHED' %}success{% elif tournament.status == 'RUNNING' %}primary{% elif tournament.status == 'REGISTRATION' %}warning{% else %}secondary{% endif %}">
+                                            {{ tournament.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ tournament.start_date|date:"d.m.Y" }}</td>
+                                    <td>
+                                        <span class="badge bg-info">{{ tournament.teams.count }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'jury_team_list' tournament.pk %}" class="btn btn-sm btn-primary">
+                                            Переглянути команди
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        Немає турнірів
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

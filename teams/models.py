@@ -2,9 +2,27 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
+from tournaments.models import Tournament
+
 
 class Team(models.Model):
     name = models.CharField(max_length=255, verbose_name="Назва команди")
+    tournament = models.ForeignKey(
+        Tournament, 
+        on_delete=models.CASCADE, 
+        related_name='teams',
+        verbose_name="Турнір",
+        null=True,
+        blank=True
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='created_teams',
+        verbose_name="Створив",
+        null=True,
+        blank=True
+    )
     city_school = models.CharField(
         max_length=255, 
         blank=True, 
@@ -23,21 +41,26 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+
 class TeamMember(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="members")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="team_memberships")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name="team_memberships",
+        null=True,
+        blank=True
+    )
     full_name = models.CharField(max_length=255, verbose_name="ПІБ учасника")
     email = models.EmailField(verbose_name="Email")
     is_captain = models.BooleanField(default=False, verbose_name="Капітан")
 
     class Meta:
-        # Валідація: Email унікальні в межах однієї команди
         unique_together = ('team', 'email')
         verbose_name = "Учасник команди"
         verbose_name_plural = "Учасники команд"
 
     def clean(self):
-        # 1. Один капітан на команду
         if self.is_captain:
             qs = TeamMember.objects.filter(team=self.team, is_captain=True)
             if self.pk:
@@ -45,8 +68,6 @@ class TeamMember(models.Model):
             if qs.exists():
                 raise ValidationError("У команди вже є капітан.")
 
-        # 2. Не можна зареєструватись двічі одним і тим самим email капітана в межах турніру
-        # (якщо цей учасник мітить у капітани)
         if self.is_captain:
             if TeamMember.objects.filter(email=self.email, is_captain=True).exclude(pk=self.pk).exists():
                 raise ValidationError("Цей email вже зареєстрований як капітан в іншій команді.")

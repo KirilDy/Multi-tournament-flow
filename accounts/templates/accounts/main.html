@@ -7,12 +7,18 @@
     <body>
         {% if user.is_authenticated %}
             <div>
-                <span>Вітаємо, {{ user.username }}!</span>
+                <span>Вітаємо, {{ user.username }}! (Роль: {{ user.get_role_display }})</span>
                 
                 <div style="margin: 10px 0;">
                     <a href="{% url 'tournament_list' %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
                         Список турнірів
                     </a>
+                    
+                    {% if user.role == 'JURY' %}
+                    <a href="{% url 'jury_tournament_list' %}" style="display: inline-block; padding: 10px 20px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 5px; margin-left: 10px;">
+                        Панель Журі
+                    </a>
+                    {% endif %}
 
                     <a href="{% url 'profile' %}" style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">
                         Мій профіль

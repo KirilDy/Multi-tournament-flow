@@ -23,8 +23,9 @@ from core import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tournaments.urls')),
-    path('accounts/',include('accounts.urls') )
+    path('tournaments/', include('tournaments.urls')),
+    path('accounts/',include('accounts.urls')),
+    path('teams/', include('teams.urls')),
 
 
 ]
