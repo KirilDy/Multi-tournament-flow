@@ -22,6 +22,12 @@ class JuryRoleMixin(LoginRequiredMixin):
         return self.request.user.role == User.Role.JURY
 
 
+class TeamOrJuryRoleMixin(LoginRequiredMixin):
+    """Mixin для перевірки ролі TEAM або JURY"""
+    def test_func(self):
+        return self.request.user.role in [User.Role.TEAM, User.Role.JURY]
+
+
 class TeamCreateView(TeamRoleMixin, CreateView):
     """View для створення команди в турнірі"""
     model = Team
@@ -55,7 +61,14 @@ class TeamCreateView(TeamRoleMixin, CreateView):
         return super().form_valid(form)
     
     def form_invalid(self, form):
-        messages.error(self.request, f"Помилка при створенні команди: {form.errors}")
+        if form.non_field_errors():
+            messages.error(self.request, f"Помилка: {' '.join(form.non_field_errors())}")
+        else:
+            errors = []
+            for field, field_errors in form.errors.items():
+                for error in field_errors:
+                    errors.append(f"{form.fields[field].label}: {error}")
+            messages.error(self.request, '; '.join(errors))
         return super().form_invalid(form)
 
 
@@ -164,8 +177,8 @@ class JuryTournamentListView(JuryRoleMixin, ListView):
         return Tournament.objects.all().order_by('-created_at')
 
 
-class TournamentTeamsView(LoginRequiredMixin, ListView):
-    """View для перегляду команд конкретного турніру"""
+class TournamentTeamsView(TeamOrJuryRoleMixin, ListView):
+    """View для перегляду команд конкретного турніру (TEAM або JURY)"""
     model = Team
     template_name = 'teams/tournament_teams.html'
     context_object_name = 'teams'
