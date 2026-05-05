@@ -33,22 +33,31 @@ class TeamCreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         if self.tournament:
-            # Перевірка чи турнір відкритий для реєстрації
-            if not self.tournament.is_registration_open():
-                raise ValidationError("Реєстрація на цей турнір закрита.")
+            now = timezone.now()
             
-            # Перевірка чи не досягнуто максимальну кількість команд
+            # Перевірка чи турнір доступний (не DRAFT, не FINISHED)
+            if self.tournament.status in [Tournament.Status.DRAFT, Tournament.Status.FINISHED]:
+                raise ValidationError("Реєстрація недоступна для цього турніру.")
+            
+            # СТРОГА перевірка часу реєстрації
+            if not (self.tournament.registration_start <= now <= self.tournament.registration_end):
+                raise ValidationError("Реєстрація доступна тільки з {} по {} (Київський час)".format(
+                    self.tournament.registration_start.strftime('%d.%m.%Y %H:%M'),
+                    self.tournament.registration_end.strftime('%d.%m.%Y %H:%M')
+                ))
+            
+            # Перевірка максимальної кількості команд
             if self.tournament.max_teams:
                 current_teams = self.tournament.teams.count()
                 if current_teams >= self.tournament.max_teams:
-                    raise ValidationError("Досягнуто максимальну кількість команд.")
+                    raise ValidationError("Досягнуто максимальну кількість команд для цього турніру.")
         return cleaned_data
     
     def save(self, commit=True):
         team = super().save(commit=False)
         if self.tournament:
             team.tournament = self.tournament
-        if commit and self.instance:
+        if commit:
             team.save()
         return team
 
