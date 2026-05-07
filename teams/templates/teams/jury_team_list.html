@@ -15,9 +15,14 @@
             <div class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <span class="navbar-text me-3">Вітаємо, {{ user.username }}! ({{ user.get_role_display }})</span>
-                    <a class="nav-link" href="{% url 'tournament_list' %}">Турніри</a>
-                    <a class="nav-link" href="{% url 'jury_tournament_list' %}">Панель Журі</a>
-                    <a class="nav-link" href="{% url 'profile' %}">Профіль</a>
+                    {% if user.role == 'ADMIN' or user.role == 'JURY' %}
+                        <a class="nav-link" href="{% url 'tournament_list' %}">Турніри</a>
+                        {% if user.role == 'JURY' %}
+                        <a class="nav-link" href="{% url 'jury_tournament_list' %}">Панель Журі</a>
+                        {% endif %}
+                        <a class="nav-link" href="{% url 'profile' %}">Профіль</a>
+                    {% endif %}
+
                     <form action="{% url 'logout' %}" method="post" class="d-inline">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-danger btn-sm">Вийти</button>
@@ -53,7 +58,7 @@
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>
-                                            <a href="{% url 'jury_team_detail' team.pk %}">{{ team.name }}</a>
+                                            <a href="{% url 'team_detail' team.pk %}">{{ team.name }}</a>
                                         </td>
                                         <td>{{ team.city_school|default:"—" }}</td>
                                         <td>{{ team.created_by.username }}</td>
@@ -61,17 +66,14 @@
                                         <td>
                                             <span class="badge bg-primary">{{ team.members.count }}</span>
                                         </td>
-                                        <td>
-                                            <a href="{% url 'team_detail' team.pk %}" class="btn btn-sm btn-info">Перегляд</a>
-                                        </td>
+
                                     </tr>
                                 {% empty %}
                                     <tr>
-                                        <td colspan="7" class="text-center">
-                                            Немає зареєстрованих команд
-                                        </td>
+                                        <td colspan="7" class="text-center">Немає зареєстрованих команд</td>
                                     </tr>
                                 {% endfor %}
+
                             </tbody>
                         </table>
                     </div>

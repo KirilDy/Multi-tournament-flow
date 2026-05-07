@@ -1,4 +1,6 @@
-# TODO4: Ensure admin buttons in tournament_detail - COMPLETED
-
-- [x] Made tournament_detail.html full independent Bootstrap page with nav, styled admin edit/delete/status buttons
-- [x] Test admin functionality
+- [ ] Додати можливість «вийти з команди» для учасника (не капітан)
+- [ ] Заборонити «вихід» капітану (і/або керівникам) якщо це потрібно по логіці
+- [ ] Оновити UI: показувати кнопку «Моя команда» тільки якщо користувач у команді
+- [ ] Оновити UI: кнопка «вийти з команди» тільки для учасника (не капітана)
+- [ ] Додати ендпоінт/в’ю для виходу і маршрути
+- [ ] Протестувати сценарії

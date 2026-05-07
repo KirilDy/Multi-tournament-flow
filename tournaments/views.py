@@ -37,6 +37,22 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
     model = Tournament
     template_name = 'tournaments/tournament_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournament = self.get_object()
+
+        # Показуємо «Моя команда» лише якщо користувач входить у команду цього турніру
+        if self.request.user.is_authenticated and self.request.user.role == 'TEAM':
+            context['my_team'] = (
+                tournament.teams.filter(members__user=self.request.user).distinct().first()
+            )
+        else:
+            context['my_team'] = None
+
+        return context
+
+
+
 
 class TournamentCreateView(AdminRequiredMixin, CreateView):
     model = Tournament

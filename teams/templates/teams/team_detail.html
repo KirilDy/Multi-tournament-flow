@@ -41,6 +41,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row mb-4">
+
                             <div class="col-md-6">
                                 <p><strong>Турнір:</strong> <a href="{% url 'tournament_detail' team.tournament.pk %}">{{ team.tournament.title }}</a></p>
                                 <p><strong>Місто / Школа:</strong> {{ team.city_school|default:"—" }}</p>
@@ -59,13 +60,15 @@
                                     <th>ПІБ</th>
                                     <th>Email</th>
                                     <th>Роль</th>
-                                    {% if is_creator %}
+                                    {% if is_creator or user.role == 'JURY' %}
                                     <th>Дії</th>
                                     {% endif %}
+
+
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for member in members %}
+                                {% for member in members|dictsortreversed:"is_captain" %}
                                     <tr>
                                         <td>{{ member.full_name }}</td>
                                         <td>{{ member.email }}</td>
@@ -76,10 +79,13 @@
                                                 <span class="badge bg-secondary">Учасник</span>
                                             {% endif %}
                                         </td>
+
+
                                         {% if is_creator %}
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-danger">Видалити</a>
+                                            <span class="text-muted"></span>
                                         </td>
+
                                         {% endif %}
                                     </tr>
                                 {% empty %}
@@ -99,6 +105,14 @@
                             </a>
                         </div>
                         {% endif %}
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>

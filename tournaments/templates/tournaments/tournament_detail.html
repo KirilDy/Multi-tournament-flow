@@ -42,17 +42,31 @@
                         <p>{{ object.description }}</p>
                         <p><strong>Статус:</strong> {{ object.get_status_display }}</p>
                         
-<div class="mt-3">
-                            <a href="{% url 'tournament_teams' object.id %}" class="btn btn-info me-2">
-                                📋 Команди турніру
-                            </a>
+                        <div class="mt-3">
+                            {# «Моя команда» (тільки якщо користувач уже в якійсь команді) #}
                             {% if user.is_authenticated and user.role == 'TEAM' %}
-                            <a href="{% url 'team_create' object.id %}" class="btn btn-outline-primary">
-                                ➕ Створити команду
-                            </a>
+                                {% if my_team %}
+                                    <a href="{% url 'team_detail' my_team.pk %}" class="btn btn-primary me-2">
+                                        Моя команда
+                                    </a>
+                                {% endif %}
                             {% endif %}
+
+                            {% if user.is_authenticated and user.role == 'JURY' or user.role == 'ADMIN' %}
+                                <a href="{% url 'tournament_teams' object.id %}" class="btn btn-info me-2">
+                                    📋 Команди турніру
+                                </a>
+                            {% endif %}
+
+                            {% if user.is_authenticated and user.role == 'TEAM' %}
+                                <a href="{% url 'team_create' object.id %}" class="btn btn-outline-primary">
+                                    ➕ Створити команду
+                                </a>
+                            {% endif %}
+
                             <small class="text-muted">{% if not object.is_registration_open %}Реєстрація з {{ object.registration_start|date:"d.m.Y H:i" }} по {{ object.registration_end|date:"d.m.Y H:i" }}{% endif %}</small>
                         </div>
+
 
 
                         {% if user.is_authenticated and user.role == 'ADMIN' %}

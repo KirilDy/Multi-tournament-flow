@@ -10,7 +10,14 @@ from tournaments.models import Tournament
 from accounts.models import User
 
 
+
+
+
+
+
+
 class TeamRoleMixin(LoginRequiredMixin):
+
     """Mixin для перевірки ролі TEAM"""
     def test_func(self):
         return self.request.user.role == User.Role.TEAM
@@ -58,7 +65,23 @@ class TeamCreateView(TeamRoleMixin, CreateView):
         form.instance.tournament = self.tournament
         form.instance.created_by = self.request.user
         messages.success(self.request, "Команду успішно створено!")
-        return super().form_valid(form)
+
+        # Додати творця команди одразу в список учасників
+        response = super().form_valid(form)
+        team = self.object
+
+        # щоб уникнути дублювання на випадок повторних запитів
+        if not team.members.filter(email=self.request.user.email).exists():
+            TeamMember.objects.create(
+                team=team,
+                user=self.request.user,
+                full_name=getattr(self.request.user, 'full_name', None) or self.request.user.username,
+                email=self.request.user.email,
+                is_captain=True,
+            )
+
+        return response
+
     
     def form_invalid(self, form):
         if form.non_field_errors():
@@ -94,7 +117,30 @@ class TeamDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+class TeamLeaveView(LoginRequiredMixin, View):
+    """Учасник може вийти з команди (видаляє свій запис TeamMember)."""
+
+    def post(self, request, pk):
+        team = get_object_or_404(Team, pk=pk)
+
+        # Забороняємо вихід капітану (і лише капітану)
+        membership = TeamMember.objects.filter(team=team, user=request.user).first()
+        if not membership:
+            messages.error(request, "Ви не є учасником цієї команди.")
+            return redirect('team_detail', pk=pk)
+
+        if membership.is_captain:
+            messages.error(request, "Капітан не може вийти з команди.")
+            return redirect('team_detail', pk=pk)
+
+        membership.delete()
+
+        messages.success(request, "Ви вийшли з команди.")
+        return redirect('tournament_teams', pk=team.tournament_id)
+
+
 class TeamAddMemberView(LoginRequiredMixin, View):
+
     """View для додавання учасників в команду (тільки для творця)"""
     
     def get(self, request, pk):
@@ -105,15 +151,30 @@ class TeamAddMemberView(LoginRequiredMixin, View):
             messages.error(request, "Ви не можете додавати учасників у цю команду.")
             return redirect('team_detail', pk=pk)
         
-        # Створення порожньої форми для нового учасника
-        form = TeamMemberForm()
+        # Створення форми для нового учасника
+        # Правило: перший доданий учасник команди має бути капітаном (і це має бути творець команди)
+        initial = {}
+        if not team.members.exists():
+            # Перший учасник команди має бути капітаном
+            initial['is_captain'] = True
+
+            # Зафіксуємо, що email першого учасника = email творця (щоб точно з'явився капітан у списку)
+            if team.created_by and getattr(team.created_by, 'email', None):
+                initial['email'] = team.created_by.email
+
+
+        form = TeamMemberForm(initial=initial)
+
+
+
         
         return render(request, 'teams/team_add_member.html', {
             'team': team,
             'form': form
         })
-    
+
     def post(self, request, pk):
+
         team = get_object_or_404(Team, pk=pk)
         
         # Перевірка чи користувач є творцем команди
@@ -121,26 +182,47 @@ class TeamAddMemberView(LoginRequiredMixin, View):
             messages.error(request, "Ви не можете додавати учасників у цю команду.")
             return redirect('team_detail', pk=pk)
         
-        form = TeamMemberForm(request.POST)
-        
+        # Правило: перший доданий учасник команди завжди є капітаном
+        # (незалежно від того, що передав користувач у чекбоксі)
+        is_first_member = not team.members.exists()
+        if is_first_member:
+            # Заблокуємо, що перший учасник точно капітан: змусимо is_captain=True навіть якщо в POST не було чекбокса
+            form = TeamMemberForm(request.POST)
+            form.initial = {**(form.initial or {}), 'is_captain': True}
+        else:
+            form = TeamMemberForm(request.POST)
+
         if form.is_valid():
+            email = form.cleaned_data['email']
+
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                messages.error(request, "Користувач з таким email не існує.")
+                return render(request, 'teams/team_add_member.html', {
+                    'team': team,
+                    'form': form,
+                })
+
             member = form.save(commit=False)
             member.team = team
-            
-            # Спроба отримати User за email
-            email = form.cleaned_data['email']
-            try:
-                member.user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                member.user = None  # Якщо користувач не зареєстрований
-            
+            member.user = user
+
+            # Підтягуємо full_name з User
+            member.full_name = getattr(user, 'full_name', None) or user.username
+
+            # Жорстко гарантуємо капітанство для першого учасника
+            if is_first_member:
+                member.is_captain = True
+
             try:
                 member.save()
+
                 messages.success(request, "Учасника успішно додано!")
             except Exception as e:
                 messages.error(request, f"Помилка при додаванні учасника: {e}")
                 return redirect('team_add_member', pk=pk)
-            
+
             return redirect('team_detail', pk=pk)
         
         return render(request, 'teams/team_add_member.html', {
@@ -177,19 +259,26 @@ class JuryTournamentListView(JuryRoleMixin, ListView):
         return Tournament.objects.all().order_by('-created_at')
 
 
-class TournamentTeamsView(TeamOrJuryRoleMixin, ListView):
-    """View для перегляду команд конкретного турніру (TEAM або JURY)"""
+class TournamentTeamsView(JuryRoleMixin, ListView):
+    """View для перегляду команд конкретного турніру (тільки ADMIN/JURY)"""
     model = Team
     template_name = 'teams/tournament_teams.html'
     context_object_name = 'teams'
-    
+
     def get_queryset(self):
         tournament_pk = self.kwargs.get('pk')
-        return Team.objects.filter(tournament_id=tournament_pk).select_related('created_by')
-    
+        return (
+            Team.objects.filter(tournament_id=tournament_pk)
+            .select_related('created_by')
+            .prefetch_related('members')
+        )
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tournament_pk = self.kwargs.get('pk')
         tournament = get_object_or_404(Tournament, pk=tournament_pk)
         context['tournament'] = tournament
         return context
+
+

@@ -1,12 +1,14 @@
 from django.urls import path
 from .views import (
-    TeamCreateView, 
-    TeamDetailView, 
+    TeamCreateView,
+    TeamDetailView,
     TeamAddMemberView,
+    TeamLeaveView,
     JuryTeamListView,
     JuryTournamentListView,
-    TournamentTeamsView
+    TournamentTeamsView,
 )
+
 
 urlpatterns = [
     # Створення команди в турнірі
@@ -17,6 +19,10 @@ urlpatterns = [
     
     # Додавання учасника в команду
     path('<int:pk>/add-member/', TeamAddMemberView.as_view(), name='team_add_member'),
+
+    # Вихід учасника з команди
+    path('<int:pk>/leave/', TeamLeaveView.as_view(), name='team_leave'),
+
     
     # Для журі: перегляд команд турніру
     path('tournament/<int:tournament_pk>/teams/', JuryTeamListView.as_view(), name='jury_team_list'),
