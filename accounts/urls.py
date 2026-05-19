@@ -15,6 +15,10 @@ path('login/', auth_views.LoginView.as_view(template_name='front/login.html'), n
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', profile_view, name='profile'),
     path('profile/edit/', edit_profile,  name='edit_profile'),
-path('main/', views.main_page, name='home'),
+    path('rounds/', views.rounds_page, name='rounds'),
+    path('main/', views.main_page, name='home'),
+
+
+
 
 ]

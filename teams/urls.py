@@ -28,7 +28,12 @@ urlpatterns = [
     path('tournament/<int:tournament_pk>/teams/', JuryTeamListView.as_view(), name='jury_team_list'),
     
     # Для журі: перегляд список турнірів
+    path('jury/', JuryTeamListView.as_view(), name='jury_page'),
     path('jury/tournaments/', JuryTournamentListView.as_view(), name='jury_tournament_list'),
+    
+    # Leaderboard (сайт для учасників/глядачів)
+
+
     
     # Перегляд команд турніру (для всіх учасників)
     path('tournament/<int:pk>/teams/', TournamentTeamsView.as_view(), name='tournament_teams'),

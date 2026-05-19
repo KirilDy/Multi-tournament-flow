@@ -43,7 +43,18 @@ def edit_profile(request):
 
 
 @login_required
+def rounds_page(request):
+    from tournaments.models import Round
+    active_rounds = (
+        Round.objects.select_related('tournament')
+        .filter(status=Round.Status.ACTIVE)
+        .order_by('tournament_id', 'order')
+    )
+    return render(request, 'front/rounds.html', {'rounds': active_rounds})
+
+
 def main_page(request):
+
     # Використовуємо front/home.html (карточки турнірів). Якщо потрібно — можна додати контекст.
     return render(request, 'front/home.html')
 

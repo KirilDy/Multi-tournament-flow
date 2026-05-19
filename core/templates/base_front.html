@@ -24,9 +24,14 @@
     <nav class="navbar__nav">
       <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
       <a href="{% url 'tournament_list' %}" class="{% if request.resolver_match.url_name == 'tournament_list' %}active{% endif %}">Tournaments</a>
-      <a href="{% url 'rounds_page' %}" class="{% if request.resolver_match.url_name == 'rounds_page' %}active{% endif %}">Rounds</a>
+      <a href="{% url 'rounds' %}" class="{% if request.resolver_match.url_name == 'rounds' %}active{% endif %}">Rounds</a>
+
+
+
+
       <a href="{% url 'jury_page' %}" class="{% if request.resolver_match.url_name == 'jury_page' %}active{% endif %}">Jury</a>
-      <a href="{% url 'leaderboard_page' %}" class="{% if request.resolver_match.url_name == 'leaderboard_page' %}active{% endif %}">Leaderbord</a>
+      {% comment %} <a href="{% url 'leaderboard_page' %}" class="{% if request.resolver_match.url_name == 'leaderboard_page' %}active{% endif %}">Leaderbord</a>
+      {% endcomment %}
     </nav>
 
     <div class="navbar__user">
