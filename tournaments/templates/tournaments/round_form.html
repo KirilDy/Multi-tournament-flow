@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Round</title>
+</head>
+<body>
+<h1>{{ form.instance.pk|yesno:"Редагування раунду,Створення раунду" }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <div>
+        {{ form.title.label_tag }}<br>
+        {{ form.title }}
+        {{ form.title.errors }}
+    </div>
+
+    <div>
+        {{ form.description.label_tag }}<br>
+        {{ form.description }}
+        {{ form.description.errors }}
+    </div>
+
+    <div>
+        {{ form.tech_requirements.label_tag }}<br>
+        {{ form.tech_requirements }}
+        {{ form.tech_requirements.errors }}
+    </div>
+
+    <div>
+        {{ form.start_time.label_tag }}<br>
+        {{ form.start_time }}
+        {{ form.start_time.errors }}
+    </div>
+
+    <div>
+        {{ form.end_time.label_tag }}<br>
+        {{ form.end_time }}
+        {{ form.end_time.errors }}
+    </div>
+
+    <div>
+        {{ form.status.label_tag }}<br>
+        {{ form.status }}
+        {{ form.status.errors }}
+    </div>
+
+    <div>
+        {{ form.order.label_tag }}<br>
+        {{ form.order }}
+        {{ form.order.errors }}
+    </div>
+
+    <hr>
+    <h2>Must-have criteria</h2>
+
+    {{ criteria_formset.management_form }}
+
+    {% for cform in criteria_formset.forms %}
+        <div style="border:1px solid #ddd; padding:10px; margin:10px 0;">
+            {{ cform.id }}
+            {{ cform.DELETE }}
+
+            <div>
+                {{ cform.text.label_tag }}<br>
+                {{ cform.text }}
+                {{ cform.text.errors }}
+            </div>
+            <div>
+                {{ cform.order.label_tag }}<br>
+                {{ cform.order }}
+                {{ cform.order.errors }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <button type="submit">Зберегти</button>
+</form>
+
+<p><a href="{% url 'tournament_detail' pk=tournament.pk %}">Назад до турніру</a></p>
+</body>
+</html>
+

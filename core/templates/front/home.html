@@ -1,0 +1,39 @@
+{% extends 'base_front.html' %}
+{% block title %}Tournamates — Home{% endblock %}
+{% block content %}
+
+  <main class="page">
+
+    <section class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Host tournaments, submit work<br>evaluate teams</h1>
+        <a class="btn btn--primary" href="{% url 'tournament_create' %}">+ &nbsp;створити турнір</a>
+      </div>
+      <div class="hero__image">
+        <img src="{% static 'front/trophy.png' %}" alt="Trophy" onerror="this.replaceWith(document.createTextNode('🏆'))" style="font-size:5rem;" />
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="tournaments-section">
+      <h2 class="tournaments-section__title">Tournaments</h2>
+
+      <div class="tournaments-grid">
+        {% for t in tournaments %}
+          <a class="tournament-card" href="{% url 'tournament_detail' t.id %}">
+            <div class="tournament-card__image">
+              <span class="tournament-card__date">{{ t.registration_start|date:'d M' }}</span>
+            </div>
+            <div class="tournament-card__name">{{ t.title }}</div>
+          </a>
+        {% empty %}
+          <div class="text-muted">Немає турнірів</div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main>
+
+{% endblock %}
+

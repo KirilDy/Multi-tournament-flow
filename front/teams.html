@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournamates — Teams</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="navbar">
+    <a href="index.html" class="navbar__logo">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 10 L18 6 L26 10 L26 20 Q26 28 18 31 Q10 28 10 20 Z"
+              fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Tournamates
+    </a>
+
+    <nav class="navbar__nav">
+      <a href="index.html">Home</a>
+      <a href="teams.html" class="active">Teams</a>
+      <a href="rounds.html">Rounds</a>
+      <a href="jury.html">Jury</a>
+      <a href="leaderboard.html">Leaderbord</a>
+    </nav>
+
+    <div class="navbar__user" onclick="window.location.href='profile.html'" style="cursor:pointer;">
+      <span>Name Surname</span>
+      <div class="navbar__avatar">⭐</div>
+    </div>
+  </header>
+
+  <!-- ═══ TEAMS PAGE ═══ -->
+  <main class="teams-page">
+
+    <h1 class="teams-page__header">Teams</h1>
+    <div class="teams-page__divider"></div>
+
+    <div class="teams-list" id="teamsList">
+
+      <div class="team-row active" onclick="selectTeam(this)">
+        <span class="team-row__name">Team Alpha</span>
+        <span class="team-row__count">5</span>
+      </div>
+
+      <div class="team-row" onclick="selectTeam(this)">
+        <span class="team-row__name">Team Beta</span>
+        <span class="team-row__count">5</span>
+      </div>
+
+      <div class="team-row" onclick="selectTeam(this)">
+        <span class="team-row__name">Team Gamma</span>
+        <span class="team-row__count">5</span>
+      </div>
+
+      <div class="team-row" onclick="selectTeam(this)">
+        <span class="team-row__name">Team Delta</span>
+        <span class="team-row__count">4</span>
+      </div>
+
+      <div class="team-row" onclick="selectTeam(this)">
+        <span class="team-row__name">Team Sigma</span>
+        <span class="team-row__count">5</span>
+      </div>
+
+    </div>
+
+    <!-- Hidden extra rows -->
+    <div id="moreTeams" style="display:none;">
+      <div class="teams-list" style="margin-top:14px;">
+        <div class="team-row" onclick="selectTeam(this)">
+          <span class="team-row__name">Team Omega</span>
+          <span class="team-row__count">5</span>
+        </div>
+        <div class="team-row" onclick="selectTeam(this)">
+          <span class="team-row__name">Team Lambda</span>
+          <span class="team-row__count">3</span>
+        </div>
+        <div class="team-row" onclick="selectTeam(this)">
+          <span class="team-row__name">Team Epsilon</span>
+          <span class="team-row__count">5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="teams-footer">
+      <button class="teams-see-more" onclick="toggleMore()">
+        see others
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1 L6 7 L11 1" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    function selectTeam(el) {
+      document.querySelectorAll('.team-row').forEach(r => r.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function toggleMore() {
+      const more = document.getElementById('moreTeams');
+      const btn = document.querySelector('.teams-see-more');
+      const isHidden = more.style.display === 'none';
+      more.style.display = isHidden ? 'block' : 'none';
+      btn.childNodes[0].textContent = isHidden ? 'hide others ' : 'see others ';
+    }
+  </script>
+
+</body>
+</html>

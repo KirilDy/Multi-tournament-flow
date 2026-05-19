@@ -65,6 +65,20 @@
                             {% endif %}
 
                             <small class="text-muted">{% if not object.is_registration_open %}Реєстрація з {{ object.registration_start|date:"d.m.Y H:i" }} по {{ object.registration_end|date:"d.m.Y H:i" }}{% endif %}</small>
+
+                            <hr class="my-3">
+
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h5 class="mb-0">Раунди</h5>
+                                    {% if user.is_authenticated and user.role == 'ADMIN' %}
+                                        <a class="btn btn-sm btn-outline-success" href="{% url 'round_create' tournament_pk=object.id %}">+ Додати</a>
+                                    {% endif %}
+                                </div>
+
+
+                                {% include 'tournaments/tournament_rounds.html' with tournament=object %}
+                            </div>
                         </div>
 
 

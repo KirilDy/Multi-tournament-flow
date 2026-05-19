@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournamates — Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="navbar">
+    <a href="index.html" class="navbar__logo">
+      <!-- Logo icon -->
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 10 L18 6 L26 10 L26 20 Q26 28 18 31 Q10 28 10 20 Z"
+              fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Tournamates
+    </a>
+
+    <nav class="navbar__nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="teams.html">Teams</a>
+      <a href="rounds.html">Rounds</a>
+      <a href="jury.html">Jury</a>
+      <a href="leaderboard.html">Leaderbord</a>
+    </nav>
+
+    <div class="navbar__user">
+      <span>Name Surname</span>
+      <div class="navbar__avatar">⭐</div>
+    </div>
+  </header>
+
+  <!-- ═══ PAGE ═══ -->
+  <main class="page">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Host tournaments, submit work<br>evaluate teams</h1>
+        <button class="btn btn--primary" onclick="window.location.href='create-tournament.html'">
+          + &nbsp;створити турнір
+        </button>
+      </div>
+      <div class="hero__image">
+        <!-- Trophy illustration via emoji + CSS, or replace src with your trophy image -->
+        <img src="trophy.png" alt="Trophy"
+             onerror="this.replaceWith(document.createTextNode('🏆'))"
+             style="font-size:5rem;" />
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Tournaments -->
+    <section class="tournaments-section">
+      <h2 class="tournaments-section__title">Tournaments</h2>
+
+      <div class="tournaments-grid">
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

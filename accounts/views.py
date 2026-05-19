@@ -16,13 +16,15 @@ from django.shortcuts import redirect, render, get_object_or_404
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')  # Куди перенаправити після успішної реєстрації
-    template_name = 'accounts/register.html'
+    template_name = 'front/register.html'
+
 
 @django.contrib.auth.decorators.login_required
 def profile_view(request):
-    return render(request, 'accounts/profile.html', {
+    return render(request, 'front/profile.html', {
         'profile_user': request.user
     })
+
 
 
 @login_required
@@ -39,6 +41,10 @@ def edit_profile(request):
     
     return render(request, 'accounts/edit_profile.html', {'form': form})
 
+
 @login_required
 def main_page(request):
-    return render(request, 'accounts/main.html')
+    # Використовуємо front/home.html (карточки турнірів). Якщо потрібно — можна додати контекст.
+    return render(request, 'front/home.html')
+
+

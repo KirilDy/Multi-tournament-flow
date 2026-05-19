@@ -1,0 +1,20 @@
+{% extends 'base_front.html' %}
+{% block title %}Jury{% endblock %}
+{% block content %}
+  <main class="jury-page">
+    <div class="jury-grid">
+      <div class="jury-card">
+        <div class="jury-card__photo">
+          <div class="jury-card__photo-label">⭐</div>
+        </div>
+        <div class="jury-card__body">
+          <div class="jury-card__name">Ви в журі</div>
+          <div style="display:flex;justify-content:center;">
+            <a class="btn btn--primary" href="{% url 'jury_tournament_list' %}">Перейти до турнірів</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'base_front.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+  <main class="login-page">
+    <div class="login-card">
+      <div class="login-card__title">Login</div>
+
+      <form class="login-form" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+          <div class="login-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger">{% for e in field.errors %}{{ e }}{% endfor %}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button class="btn btn--login" type="submit">Увійти</button>
+
+        {% if next %}
+          <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+      </form>
+
+      <div class="login-signup" style="margin-top:12px;">
+        Немає акаунта? <a href="{% url 'register' %}">Зареєструватися</a>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+

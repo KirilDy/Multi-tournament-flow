@@ -1,0 +1,227 @@
+/* ===========================
+   TOURNAMATES — Global Styles
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
+/* ─── CSS Variables ─── */
+:root {
+  --bg-gradient-start: #b8c4e8;
+  --bg-gradient-mid:   #c9aadb;
+  --bg-gradient-end:   #e0b8e8;
+
+  --nav-bg:            rgba(80, 75, 110, 0.82);
+  --nav-text:          #ffffff;
+  --nav-active:        #ffffff;
+  --nav-inactive:      rgba(255,255,255,0.65);
+  --nav-hover:         rgba(255,255,255,0.9);
+
+  --hero-title:        #3a3560;
+
+  --btn-primary-bg:    #3a3560;
+  --btn-primary-text:  #ffffff;
+  --btn-primary-hover: #2e2a4d;
+
+  --card-bg:           rgba(230, 225, 215, 0.75);
+  --card-radius:       14px;
+  --card-shadow:       0 4px 18px rgba(80, 60, 120, 0.10);
+
+  --section-bg:        rgba(190, 175, 215, 0.38);
+  --section-radius:    28px;
+
+  --divider:           rgba(80, 70, 110, 0.25);
+
+  --font:              'Nunito', sans-serif;
+  --text-dark:         #3a3560;
+  --text-muted:        #7a7090;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--font);
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+  color: var(--text-dark);
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* ─── NAVBAR ─── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 62px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--nav-text);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.navbar__logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+
+.navbar__nav { display: flex; align-items: center; gap: 36px; }
+.navbar__nav a {
+  color: var(--nav-inactive);
+  font-size: 0.97rem;
+  font-weight: 600;
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.navbar__nav a:hover { color: var(--nav-hover); }
+.navbar__nav a.active { color: var(--nav-active); }
+.navbar__nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0; right: 0;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+}
+
+.navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--nav-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navbar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  border: 2px solid rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.page { max-width: 1120px; margin: 0 auto; padding: 0 32px 60px; }
+
+/* ─── HERO ─── */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 52px 0 40px;
+  gap: 24px;
+}
+.hero__content { max-width: 480px; }
+.hero__title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--hero-title);
+  line-height: 1.2;
+  margin-bottom: 28px;
+}
+.hero__image { width: 200px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.hero__image img { width: 100%; filter: drop-shadow(0 8px 24px rgba(80,60,120,0.18)); }
+
+.divider { height: 1px; background: var(--divider); margin-bottom: 36px; }
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.97rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn--primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  box-shadow: 0 4px 16px rgba(58,53,96,0.22);
+}
+.btn--primary:hover {
+  background: var(--btn-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(58,53,96,0.30);
+}
+.btn--primary:active { transform: translateY(0); }
+
+/* ─── Tournaments ─── */
+.tournaments-section {
+  background: var(--section-bg);
+  border-radius: var(--section-radius);
+  padding: 32px 32px 40px;
+  backdrop-filter: blur(8px);
+}
+.tournaments-section__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+.tournaments-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.tournament-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+}
+.tournament-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(80,60,120,0.18);
+}
+.tournament-card__image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: rgba(210, 205, 195, 0.9);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px 12px;
+}
+.tournament-card__date { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+.tournament-card__name { padding: 12px 14px 14px; font-size: 0.95rem; font-weight: 700; color: var(--text-dark); }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .tournaments-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero__image { width: 140px; }
+  .hero__title { font-size: 1.7rem; }
+}
+@media (max-width: 600px) {
+  .navbar { padding: 0 18px; }
+  .navbar__nav { gap: 18px; }
+  .page { padding: 0 16px 40px; }
+  .tournaments-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hero { flex-direction: column-reverse; padding: 32px 0 28px; }
+  .hero__image { width: 100px; }
+}
+

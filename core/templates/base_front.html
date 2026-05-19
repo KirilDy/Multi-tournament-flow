@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Tournamates{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'front/styles.css' %}" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="{% url 'home' %}" class="navbar__logo">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 10 L18 6 L26 10 L26 20 Q26 28 18 31 Q10 28 10 20 Z"
+              fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Tournamates
+    </a>
+
+    <nav class="navbar__nav">
+      <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+      <a href="{% url 'tournament_list' %}" class="{% if request.resolver_match.url_name == 'tournament_list' %}active{% endif %}">Tournaments</a>
+      <a href="{% url 'rounds_page' %}" class="{% if request.resolver_match.url_name == 'rounds_page' %}active{% endif %}">Rounds</a>
+      <a href="{% url 'jury_page' %}" class="{% if request.resolver_match.url_name == 'jury_page' %}active{% endif %}">Jury</a>
+      <a href="{% url 'leaderboard_page' %}" class="{% if request.resolver_match.url_name == 'leaderboard_page' %}active{% endif %}">Leaderbord</a>
+    </nav>
+
+    <div class="navbar__user">
+      {% if user.is_authenticated %}
+        <span>{{ user.username }}</span>
+      {% else %}
+        <span>Guest</span>
+      {% endif %}
+      <div class="navbar__avatar">⭐</div>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>
+

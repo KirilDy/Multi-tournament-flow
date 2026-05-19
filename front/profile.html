@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournamates — Profile</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="navbar">
+    <a href="index.html" class="navbar__logo">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 10 L18 6 L26 10 L26 20 Q26 28 18 31 Q10 28 10 20 Z"
+              fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Tournamates
+    </a>
+
+    <nav class="navbar__nav">
+      <a href="index.html">Home</a>
+      <a href="teams.html">Teams</a>
+      <a href="rounds.html">Rounds</a>
+      <a href="jury.html">Jury</a>
+      <a href="leaderboard.html">Leaderbord</a>
+    </nav>
+
+    <div class="navbar__user" onclick="window.location.href='profile.html'" style="cursor:pointer;">
+      <span>Name Surname</span>
+      <div class="navbar__avatar">⭐</div>
+    </div>
+  </header>
+
+  <!-- ═══ PROFILE PAGE ═══ -->
+  <main class="profile-page">
+    <div class="profile-card">
+
+      <!-- Header: title + stats -->
+      <div class="profile-card__header">
+        <h1 class="profile-card__title">Profile</h1>
+        <div class="profile-card__stats">
+          <div class="profile-stat">
+            <div class="profile-stat__value">4 820</div>
+            <div class="profile-stat__label">Очки</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat__value">12</div>
+            <div class="profile-stat__label">Турніри</div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-card__divider"></div>
+
+      <!-- Body: avatar + info -->
+      <div class="profile-body">
+
+        <!-- Avatar col -->
+        <div class="profile-avatar-col">
+          <div class="profile-avatar">
+            <span class="profile-avatar__star">★</span>
+          </div>
+          <button class="btn btn--edit">edit</button>
+        </div>
+
+        <!-- Info col -->
+        <div class="profile-info">
+          <div class="profile-info__name">Олена Ковальчук</div>
+
+          <table class="profile-table">
+            <tbody>
+              <tr>
+                <td>📧 olena.kovalchuk@email.com</td>
+                <td>Team Alpha</td>
+              </tr>
+              <tr>
+                <td>📍 Київ, Україна</td>
+                <td>1 місце</td>
+              </tr>
+              <tr>
+                <td>🎂 12 березня 1998</td>
+                <td>4 820 pts</td>
+              </tr>
+              <tr>
+                <td>💼 Розробник ПЗ, Frontend-інженер</td>
+                <td>12 перемог</td>
+              </tr>
+              <tr>
+                <td>🏆 Tournamates з 2023 · Tournament 1, Tournament 3, Tournament 7</td>
+                <td>3 трофеї</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /profile-body -->
+
+      <!-- Action buttons -->
+      <div class="profile-actions">
+        <button class="btn btn--action">Мої турніри</button>
+        <button class="btn btn--action">Налаштування</button>
+      </div>
+
+    </div><!-- /profile-card -->
+  </main>
+
+</body>
+</html>

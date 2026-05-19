@@ -1,0 +1,42 @@
+{% for round in tournament.rounds.all %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <div class="d-flex align-items-start justify-content-between gap-2">
+        <div class="flex-grow-1">
+          <a class="btn btn-sm btn-outline-secondary w-100 text-start" href="{% url 'round_detail' tournament_pk=tournament.id pk=round.pk %}">
+            <strong>Раунд {{ round.order }}: {{ round.title }}</strong>
+          </a>
+          <div class="text-muted mt-2">{{ round.start_time|date:"d.m.Y H:i" }} → {{ round.end_time|date:"d.m.Y H:i" }}</div>
+        </div>
+        {% if user.is_authenticated and user.role == 'ADMIN' %}
+          <a class="btn btn-sm btn-primary" href="{% url 'round_edit' tournament_pk=tournament.id pk=round.pk %}">Редагувати</a>
+        {% endif %}
+      </div>
+
+
+      <div class="mt-2">
+        <div class="text-muted mb-1">Опис раунду:</div>
+        <div>{{ round.description }}</div>
+      </div>
+
+      <div class="mt-2">
+        <div class="text-muted mb-1">Куди здавати:</div>
+        <div>{{ round.tech_requirements }}</div>
+      </div>
+
+      <div class="mt-2">
+        <div class="text-muted mb-1">Must-have вимоги:</div>
+        <ul class="mb-0">
+          {% for c in round.must_have_criteria.all %}
+            <li>{{ c.text }}</li>
+          {% empty %}
+            <li class="text-muted">Немає вимог</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <p class="text-muted">Раундіів не знайдено.</p>
+{% endfor %}
+

@@ -1,0 +1,35 @@
+{% extends 'base_front.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+  <main class="profile-page">
+    <div class="profile-card">
+      <div class="profile-card__header">
+        <div class="profile-card__title">{{ user.username }}</div>
+        <div class="profile-card__stats">
+          <div class="profile-stat">
+            <div class="profile-stat__value">⭐</div>
+            <div class="profile-stat__label">role</div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-card__divider"></div>
+
+      <div class="profile-body">
+        <div class="profile-avatar-col">
+          <div class="profile-avatar"><div class="profile-avatar__star">⭐</div></div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-info__name">Профіль</div>
+          <table class="profile-table">
+            <tr><td>Роль</td><td>{{ user.get_role_display }}</td></tr>
+          </table>
+
+          <div class="profile-actions">
+            <a class="btn btn--action" href="{% url 'edit_profile' %}">Редагувати профіль</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+

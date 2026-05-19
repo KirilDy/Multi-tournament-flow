@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournamates — Rounds</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="navbar">
+    <a href="index.html" class="navbar__logo">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 10 L18 6 L26 10 L26 20 Q26 28 18 31 Q10 28 10 20 Z"
+              fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Tournamates
+    </a>
+
+    <nav class="navbar__nav">
+      <a href="index.html">Home</a>
+      <a href="teams.html">Teams</a>
+      <a href="rounds.html" class="active">Rounds</a>
+      <a href="jury.html">Jury</a>
+      <a href="leaderboard.html">Leaderbord</a>
+    </nav>
+
+    <div class="navbar__user">
+      <span>Name Surname</span>
+      <div class="navbar__avatar">⭐</div>
+    </div>
+  </header>
+
+  <!-- ═══ SELECTOR BAR ═══ -->
+  <div class="selector-bar">
+    <button class="selector-trigger" id="selectorTrigger" onclick="toggleDropdown()">
+      Tournamates
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 5 L7 9 L11 5" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- Dropdown -->
+    <div class="dropdown" id="dropdown">
+      <div class="dropdown__header">
+        Tournamates
+        <button class="dropdown__close" onclick="closeDropdown()">✕</button>
+      </div>
+      <div class="dropdown__search">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="7" cy="7" r="5" stroke="#9a90b0" stroke-width="1.5"/>
+          <path d="M11 11 L14 14" stroke="#9a90b0" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" placeholder="Search…" id="dropdownSearch" oninput="filterDropdown()" />
+      </div>
+      <div class="dropdown__list" id="dropdownList">
+        <div class="dropdown__item" onclick="selectTournament(this)">Tournamates</div>
+        <div class="dropdown__item" onclick="selectTournament(this)">Tournament 1</div>
+        <div class="dropdown__item" onclick="selectTournament(this)">Tournament 2</div>
+        <div class="dropdown__item" onclick="selectTournament(this)">Tournament 3</div>
+        <div class="dropdown__item" onclick="selectTournament(this)">Tournament 4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CAROUSEL ═══ -->
+  <section class="carousel-section">
+    <button class="carousel-arrow carousel-arrow--prev" onclick="prevSlide()" aria-label="Previous">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 6 L9 14 L17 22" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="carousel-inner" id="carouselInner">
+      <div class="carousel-slide"></div>
+      <div class="carousel-slide"></div>
+      <div class="carousel-slide"></div>
+    </div>
+
+    <button class="carousel-arrow carousel-arrow--next" onclick="nextSlide()" aria-label="Next">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 6 L19 14 L11 22" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </section>
+
+  <!-- ═══ TOURNAMENTS LIST ═══ -->
+  <div class="rounds-list-wrapper">
+    <section class="tournaments-section">
+      <h2 class="tournaments-section__title">Tournaments</h2>
+
+      <div class="tournaments-grid">
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+
+        <div class="tournament-card">
+          <div class="tournament-card__image">
+            <span class="tournament-card__date">20 Jan</span>
+          </div>
+          <div class="tournament-card__name">Tournament 1</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ── Dropdown ──
+    function toggleDropdown() {
+      document.getElementById('dropdown').classList.toggle('open');
+    }
+
+    function closeDropdown() {
+      document.getElementById('dropdown').classList.remove('open');
+    }
+
+    function selectTournament(el) {
+      document.getElementById('selectorTrigger').childNodes[0].textContent = el.textContent + ' ';
+      closeDropdown();
+    }
+
+    function filterDropdown() {
+      const q = document.getElementById('dropdownSearch').value.toLowerCase();
+      document.querySelectorAll('.dropdown__item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    document.addEventListener('click', function(e) {
+      const bar = document.querySelector('.selector-bar');
+      if (!bar.contains(e.target)) closeDropdown();
+    });
+
+    // ── Carousel ──
+    const slides = [0, 1, 2, 3, 4]; // 5 virtual slides
+    let current = 0;
+
+    const colors = [
+      'rgba(215,190,235,0.70)',
+      'rgba(200,175,230,0.70)',
+      'rgba(225,200,240,0.70)',
+      'rgba(190,170,220,0.70)',
+      'rgba(210,185,235,0.70)',
+    ];
+
+    function updateCarousel() {
+      const inner = document.getElementById('carouselInner');
+      const els = inner.querySelectorAll('.carousel-slide');
+      for (let i = 0; i < 3; i++) {
+        const idx = (current + i) % slides.length;
+        els[i].style.background = colors[idx];
+      }
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      updateCarousel();
+    }
+  </script>
+
+</body>
+</html>
