@@ -6,8 +6,10 @@ from .views import (
     TeamLeaveView,
     JuryTeamListView,
     JuryTournamentListView,
+    JuryPeopleListView,
     TournamentTeamsView,
 )
+
 
 
 urlpatterns = [
@@ -28,8 +30,16 @@ urlpatterns = [
     path('tournament/<int:tournament_pk>/teams/', JuryTeamListView.as_view(), name='jury_team_list'),
     
     # Для журі: перегляд список турнірів
-    path('jury/', JuryTeamListView.as_view(), name='jury_page'),
+    # Сторінка журі: спочатку показує список турнірів
+    path('jury/', JuryTournamentListView.as_view(), name='jury_page'),
     path('jury/tournaments/', JuryTournamentListView.as_view(), name='jury_tournament_list'),
+
+    # Для журі: список самих журі-людей
+    path('jury/people/', JuryPeopleListView.as_view(), name='jury_people_list'),
+
+
+
+
     
     # Leaderboard (сайт для учасників/глядачів)
 

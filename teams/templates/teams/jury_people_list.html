@@ -1,0 +1,37 @@
+{% extends 'base_front.html' %}
+
+{% block title %}Jury{% endblock %}
+
+{% block content %}
+  <main class="jury-page">
+    <div class="jury-grid">
+      {% for jury in juries %}
+        <div class="jury-card">
+          <div class="jury-card__photo">
+            <span class="jury-card__photo-label">photo</span>
+            <div class="jury-card__logo-icon">
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="22" r="7" stroke="#aa66dd" stroke-width="2"/>
+                <polygon points="18,4 30,4 30,20 18,20" stroke="#aa66dd" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+          </div>
+          <div class="jury-card__body">
+            <div class="jury-card__name">
+              {{ jury.full_name|default:jury.get_full_name|default:jury.username }}
+            </div>
+            <div class="jury-card__number">{{ forloop.counter|stringformat:"03d" }}</div>
+
+          </div>
+        </div>
+      {% empty %}
+        <div class="jury-card" style="grid-column: 1 / -1;">
+          <div class="jury-card__body">
+            <div class="jury-card__name">Немає доступних журі</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}
+

@@ -259,6 +259,17 @@ class JuryTournamentListView(JuryRoleMixin, ListView):
         return Tournament.objects.all().order_by('-created_at')
 
 
+class JuryPeopleListView(JuryRoleMixin, ListView):
+    """View для журі: список користувачів з роллю JURY"""
+    model = User
+    template_name = 'teams/jury_people_list.html'
+    context_object_name = 'juries'
+
+    def get_queryset(self):
+        return User.objects.filter(role=User.Role.JURY).order_by('id')
+
+
+
 class TournamentTeamsView(JuryRoleMixin, ListView):
     """View для перегляду команд конкретного турніру (тільки ADMIN/JURY)"""
     model = Team

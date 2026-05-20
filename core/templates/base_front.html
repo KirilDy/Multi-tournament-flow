@@ -29,19 +29,20 @@
 
 
 
-      <a href="{% url 'jury_page' %}" class="{% if request.resolver_match.url_name == 'jury_page' %}active{% endif %}">Jury</a>
+      <a href="{% url 'jury_people_list' %}" class="{% if request.resolver_match.url_name == 'jury_people_list' %}active{% endif %}">Jury</a>
+
       {% comment %} <a href="{% url 'leaderboard_page' %}" class="{% if request.resolver_match.url_name == 'leaderboard_page' %}active{% endif %}">Leaderbord</a>
       {% endcomment %}
     </nav>
 
-    <div class="navbar__user">
+    <a class="navbar__user" href="{% url 'profile' %}">
       {% if user.is_authenticated %}
         <span>{{ user.username }}</span>
       {% else %}
         <span>Guest</span>
       {% endif %}
       <div class="navbar__avatar">⭐</div>
-    </div>
+    </a>
   </header>
 
   <main>

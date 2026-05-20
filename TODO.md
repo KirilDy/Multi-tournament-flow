@@ -1,10 +1,6 @@
 # TODO
-
-- [x] Додати моделі `Round` та `MustHaveCriteria` в `tournaments/models.py` (за блок-схемою)
-- [x] Зареєструвати `Round` та `MustHaveCriteria` в `tournaments/admin.py`
-- [x] Згенерувати та застосувати міграції
-- [x] Додати відображення раундів на сторінці `TournamentDetailView` (+ деяка підказка що треба здавати)
-
-
-
+- [x] Зібрати контекст по наявних шаблонах jury та navbar
+- [x] В `core/templates/base_front.html` зробити правий нік клікабельним і вести на `{% url 'profile' %}`
+- [ ] Перевірити, що `core/templates/front/jury.html` використовує `base_front.html` і кліки працюють
+- [ ] За потреби поправити CTA/переходи на сторінці jury
 
